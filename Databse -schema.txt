@@ -1,0 +1,7 @@
+Databse Schema
+Admin (ID, Username, Password, Fullname, phone_number, address, createdAt,  updatedAt)
+JobSchedule (ID, admin_id, job, time, scheduled, createdAt,  updatedAt)
+NotiLog (ID, notiSchedule_id, content, target, createdAt,  updatedAt)
+BackupLog (ID, schedule_id, target_database ,target_service) 
+MessageLog (ID, schedule_id, content, name_exchange, createdAt,  updatedAt)
+MornitorLog (ID, schedule_id, status, createdAt,  updatedAt)

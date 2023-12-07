@@ -1,0 +1,17 @@
+src/
+>utils
+ -authentication
+ -taskScheduler
+ ...
+>schedule
+ >services
+  |scheduleService
+ >controller
+  |scheduleController
+ >repositories
+  |scheduleRepository
+>admin
+ >services
+ >controller
+ >repositories
+  

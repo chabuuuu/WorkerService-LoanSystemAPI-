@@ -1,0 +1,81 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id            Int           @id @default(autoincrement())
+  username      String
+  password      String
+  fullname      String
+  phone_number  String
+  address       String
+  job_schedules JobSchedule[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model JobSchedule {
+  id          Int           @id @default(autoincrement())
+  job         String
+  time        String
+  content     String
+  scheduled   Boolean
+  notilog     NotiLog[]
+  backuplog   BackupLog[]
+  messagelog  MessageLog[]
+  mornitorlog MornitorLog[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Admin       Admin?        @relation(fields: [adminId], references: [id])
+  adminId     Int?
+}
+
+model NotiLog {
+  id            Int          @id @default(autoincrement())
+  schedule_id   Int
+  content       String
+  target        String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  JobSchedule   JobSchedule? @relation(fields: [jobScheduleId], references: [id])
+  jobScheduleId Int?
+}
+
+model BackupLog {
+  id            Int          @id @default(autoincrement())
+  schedule_id   Int
+  target_db     String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  JobSchedule   JobSchedule? @relation(fields: [jobScheduleId], references: [id])
+  jobScheduleId Int?
+}
+
+model MessageLog {
+  id            Int          @id @default(autoincrement())
+  schedule_id   Int
+  content       String
+  name_exchange String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  JobSchedule   JobSchedule? @relation(fields: [jobScheduleId], references: [id])
+  jobScheduleId Int?
+}
+
+model MornitorLog {
+  id            Int          @id @default(autoincrement())
+  schedule_id   Int
+  status        String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  JobSchedule   JobSchedule? @relation(fields: [jobScheduleId], references: [id])
+  jobScheduleId Int?
+}
