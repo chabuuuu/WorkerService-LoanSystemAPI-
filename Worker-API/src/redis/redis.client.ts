@@ -1,13 +1,19 @@
-// import { Client } from 'redis-om'
-import { createClient } from 'redis';
-/* pulls the Redis URL from .env */
-const url = process.env.REDIS_URL;
-console.log(url);
+import { FactoryProvider } from '@nestjs/common';
+import { Redis } from 'ioredis';
 
-const client = createClient({ url: url });
-client.on('error', (err) => console.log('Redis Client Error', err));
-// await client.connect();
-/* create and open the Redis OM Client */
-// const client = await new Client().open(url)
+export const redisClientFactory: FactoryProvider<Redis> = {
+    provide: 'RedisClient',
+    useFactory: () => {
+        const redisInstance = new Redis({
+            host: process.env.REDIS_HOST,
+            port: +process.env.REDIS_PORT,
+        });
 
-export default client;
+        redisInstance.on('error', e => {
+            throw new Error(`Redis connection failed: ${e}`);
+        });
+
+        return redisInstance;
+    },
+    inject: [],
+};

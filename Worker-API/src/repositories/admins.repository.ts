@@ -10,7 +10,7 @@ export class AdminRepository {
         return this.prisma.admin.create({ data });
       }
     
-      async getAdmins(params: {
+      async get(params: {
         skip?: number;
         take?: number;
         cursor?: Prisma.AdminWhereUniqueInput;

@@ -40,7 +40,7 @@ export class SchedulesService {
       }
     
       async getSchedules() {
-        const schedules = await this.repository.getSchedules({});
+        const schedules = await this.repository.get({});
         return schedules;
       }
       async deleteSchedule(id : string){
@@ -53,7 +53,7 @@ export class SchedulesService {
       }
       async loadSchedules(){
         try {
-            const schedules = await this.repository.getSchedules({});
+            const schedules = await this.repository.get({});
             if (schedules.length > 0){
                 for (var schedule of schedules) {
                     const job = await this.scheduleUtil.handle(schedule.time, schedule.job, schedule.scheduled, schedule.id);

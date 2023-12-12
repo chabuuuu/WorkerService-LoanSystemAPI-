@@ -22,7 +22,7 @@ export class MornitorService {
         // do other things in the service layer... e.g. send email
       }
     async getMornitorLog() {
-        const log = await this.repository.getMornitorLog({});
+        const log = await this.repository.get({});
         return log;
     }
   async mornitor(schedule_id: number){

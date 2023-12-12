@@ -10,7 +10,7 @@ export class MornitorRepository {
         return this.prisma.mornitorLog.create({ data });
       }
     
-      async getMornitorLog(params: {
+      async get(params: {
         skip?: number;
         take?: number;
         cursor?: Prisma.MornitorLogWhereUniqueInput;

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, UseInterceptors } from '@nestjs/common';
 import { AdminsService } from 'src/services/admin.service';
 
 @Controller()
@@ -24,7 +24,7 @@ export class AdminController {
     }
   
     @Get()
-    getSchedules() {
+    getAdmins() {
       return this.adminsSercice.getAdmins();
     }
 }

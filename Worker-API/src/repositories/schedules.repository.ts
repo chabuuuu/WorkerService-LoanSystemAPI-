@@ -10,7 +10,7 @@ export class SchedulesRepository {
         return this.prisma.jobSchedule.create({ data });
       }
     
-      async getSchedules(params: {
+      async get(params: {
         skip?: number;
         take?: number;
         cursor?: Prisma.JobScheduleWhereUniqueInput;
