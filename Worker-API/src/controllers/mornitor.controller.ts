@@ -1,13 +1,17 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { MornitorService } from 'src/services/mornitor.service';
 
-@Controller('api/v1')
+@Controller()
 export class MornitorController {
     constructor(private readonly mornitorService: MornitorService) {}
-
-    @Get('mornitor')
-    getSchedules() {
+    //GET api/v1/mornitor
+    @Get()
+    getMornitor() {
       return this.mornitorService.getMornitorLog();
+    }
+    @Delete(':id')
+    deleteMornitor(@Param('id') id: string) {
+      return this.mornitorService.deleteMornitorLog(Number(id));
     }
 }
 

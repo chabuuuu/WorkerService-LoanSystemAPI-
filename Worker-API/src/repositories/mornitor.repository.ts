@@ -23,8 +23,13 @@ export class MornitorRepository {
     
       async deleteMornitorLog(params: {
         where: Prisma.MornitorLogWhereUniqueInput;
-      }): Promise<MornitorLog> {
+      }): Promise<number> {
         const { where } = params;
-        return this.prisma.mornitorLog.delete({ where });
+        if (where.id == -1){
+          const respond = await this.prisma.mornitorLog.deleteMany({});
+          return respond.count;
+        }
+        const respond = await this.prisma.mornitorLog.deleteMany({ where });
+        return respond.count;
       }
 }

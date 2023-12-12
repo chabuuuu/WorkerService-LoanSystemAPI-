@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Query } from '@nestjs/common';
 import { SchedulesService } from 'src/services/schedules.service';
 
-@Controller('api/v1')
+@Controller()
 export class ScheduleController {
     constructor(private readonly schedulesSercice: SchedulesService) {}
-
-    @Post(`schedule`)
+    //POST api/v1/schedule
+    @Post()
     async createSchedule(@Body() data: { job: string, time: string, scheduled: boolean, content: string; adminId: string }) {
       const { 
         job, 
@@ -27,13 +27,13 @@ export class ScheduleController {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
     }
-  
-    @Get('schedules')
+    //GET api/v1/schedule
+    @Get()
     getSchedules() {
       return this.schedulesSercice.getSchedules();
     }
-
-    @Delete('schedule/:id')
+    //Delete api/v1/schedule
+    @Delete(':id')
     deleteSchedule(@Param('id') id: string){
       return this.schedulesSercice.deleteSchedule(id);
     }

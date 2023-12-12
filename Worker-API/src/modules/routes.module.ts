@@ -8,6 +8,6 @@ import { MornitorController } from '../controllers/mornitor.controller';
 
 @Module({
     imports: [SchedulesModule, AdminsModule, MornitorModule],
-    controllers: [ScheduleController, AdminController, MornitorController],
+    //controllers: [ScheduleController, AdminController, MornitorController],
 })
-export class ControllersModule {}
+export class RoutesModule {}

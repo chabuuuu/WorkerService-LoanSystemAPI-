@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './routes';
 import { NestExpressApplication } from '@nestjs/platform-express';
 const morgan = require('morgan');
 

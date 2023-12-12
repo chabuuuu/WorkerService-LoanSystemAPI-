@@ -1,11 +1,11 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { AdminsService } from 'src/services/admin.service';
 
-@Controller('api/v1')
+@Controller()
 export class AdminController {
     constructor(private readonly adminsSercice: AdminsService) {}
 
-    @Post(`admin`)
+    @Post()
     async createAdmin(@Body() data: { 
         username: string, password: string, fullname :string,
          phone_number: string, address: string
@@ -23,7 +23,7 @@ export class AdminController {
     }
     }
   
-    @Get('admin')
+    @Get()
     getSchedules() {
       return this.adminsSercice.getAdmins();
     }

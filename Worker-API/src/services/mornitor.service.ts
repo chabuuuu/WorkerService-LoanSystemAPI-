@@ -36,5 +36,16 @@ export class MornitorService {
             throw error
         } 
     });
-}
+    }
+    async deleteMornitorLog(id: number) {
+        try {
+            const logDeletedCount = await this.repository.deleteMornitorLog({
+                where: {id: id}
+            });
+            return {status: "deleted", count: logDeletedCount}
+        } catch (error) {
+            throw error
+        }
+
+    }
 }
