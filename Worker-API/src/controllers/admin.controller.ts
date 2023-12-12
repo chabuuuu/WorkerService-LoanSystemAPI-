@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { AdminsService } from 'src/modules/admins/admin.service';
+import { AdminsService } from 'src/services/admin.service';
 
 @Controller('api/v1')
 export class AdminController {

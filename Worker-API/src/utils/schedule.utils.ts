@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MornitorService } from 'src/modules/mornitor/mornitor.service';
+import { MornitorService } from 'src/services/mornitor.service';
 // import cron from 'node-cron'
 var cron = require('node-cron');
 

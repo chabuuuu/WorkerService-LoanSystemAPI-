@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { ErrorHandle } from './error.utils';
-import { ScheduleUtil } from './schedule.utils';
-import { MornitorModule } from 'src/modules/mornitor/mornitor.module';
+import { ErrorHandle } from '../utils/error.utils';
+import { ScheduleUtil } from '../utils/schedule.utils';
+import { MornitorModule } from 'src/modules/mornitor.module'
 
 @Module({
   imports: [MornitorModule],

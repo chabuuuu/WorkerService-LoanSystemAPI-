@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { MornitorService } from 'src/modules/mornitor/mornitor.service';
+import { MornitorService } from 'src/services/mornitor.service';
 
 @Controller('api/v1')
 export class MornitorController {

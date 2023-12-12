@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SchedulesRepository } from './schedules.repository';
+import { SchedulesRepository } from '../repositories/schedules.repository';
 import { Admin, JobSchedule, Prisma } from '@prisma/client';
 import { scheduled } from 'rxjs';
 import { ScheduleUtil } from 'src/utils/schedule.utils';

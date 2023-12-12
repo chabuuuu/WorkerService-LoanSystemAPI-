@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Post, Query } from '@nestjs/common';
-import { SchedulesService } from 'src/modules/schedules/schedules.service';
+import { SchedulesService } from 'src/services/schedules.service';
 
 @Controller('api/v1')
 export class ScheduleController {

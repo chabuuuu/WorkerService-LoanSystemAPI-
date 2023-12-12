@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MornitorRepository } from './mornitor.repository';
+import { MornitorRepository } from '../repositories/mornitor.repository';
 import { MornitorLog, Prisma } from '@prisma/client';
 import { log } from 'console';
 const si = require('systeminformation');

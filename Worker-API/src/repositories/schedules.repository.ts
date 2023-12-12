@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JobSchedule, Prisma } from '@prisma/client';
-import { PrismaService } from 'src/database/prisma.service';
+import { PrismaService } from 'src/services/prisma.service';
 
 @Injectable()
 export class SchedulesRepository {
