@@ -2,23 +2,22 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Admin, Prisma } from '@prisma/client';
 import { AdminRepository } from '../repositories/admins.repository';
 import { RedisService } from './redis.service';
+import { BaseService } from './base.service';
+import { AdminInterface } from 'src/domain/interface/admin.interface';
 
 @Injectable()
-export class AdminsService {
-    constructor(private repository: AdminRepository,
-      @Inject(RedisService) private readonly redisService: RedisService) {}
+export class AdminsService extends BaseService<Admin, AdminRepository> {
+    constructor(
+      repository: AdminRepository,
+      @Inject(RedisService) private readonly redisService: RedisService) {
+        super(repository)
+      }
 
-    async createAdmin(params: {username: Admin['username'], password: Admin['password'],
-     fullname: Admin[`fullname`], phone_number: Admin['phone_number'], 
-     address: Admin['address'] }) {
-        const { username, password, fullname, phone_number, address  } = params;
-    
-        // call repository layer
+    async store(params: AdminInterface) : Promise<Admin>
+     {
         try {
-            const admin = await this.repository.createAdmin({
-                data: {
-                    username, password, fullname, phone_number, address
-                },
+            const admin = await this.repository.store({
+                data: params
               });
               await this.redisService.saveAdmin(admin.id.toString(), admin);
               return admin;
@@ -28,8 +27,11 @@ export class AdminsService {
         // do other things in the service layer... e.g. send email
       }
     
-      async getAdmins() {
-        //const admins = await this.repository.getAdmins({});
+      async get(params: any) : Promise<Object> {
+        //const admins = await this.repository.get({});
+        
+        //console.log(typeof Admin);
+        
         const redis_admins = await this.redisService.getAdmin("");
         return {data: redis_admins, source: "redis"};
       }

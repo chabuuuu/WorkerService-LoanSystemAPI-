@@ -36,6 +36,7 @@ model JobSchedule {
   updatedAt   DateTime      @updatedAt
   Admin       Admin?        @relation(fields: [adminId], references: [id])
   adminId     Int?
+  SyncLog     SyncLog[]
 }
 
 model NotiLog {
@@ -76,6 +77,18 @@ model MornitorLog {
   status        String
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
+  JobSchedule   JobSchedule? @relation(fields: [jobScheduleId], references: [id])
+  jobScheduleId Int?
+}
+
+model SyncLog {
+  id            Int          @id @default(autoincrement())
+  schedule_id   Int
+  type          String
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  count         Int
+  status        Boolean
   JobSchedule   JobSchedule? @relation(fields: [jobScheduleId], references: [id])
   jobScheduleId Int?
 }

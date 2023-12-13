@@ -1,4 +1,5 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post, UseInterceptors } from '@nestjs/common';
+import { AdminInterface } from 'src/domain/interface/admin.interface';
 import { AdminsService } from 'src/services/admin.service';
 
 @Controller()
@@ -6,17 +7,9 @@ export class AdminController {
     constructor(private readonly adminsSercice: AdminsService) {}
 
     @Post()
-    async createAdmin(@Body() data: { 
-        username: string, password: string, fullname :string,
-         phone_number: string, address: string
-    }) {
-      const { 
-        username, password, fullname, phone_number, address
-    } = data;
+    async createAdmin(@Body() data: AdminInterface) {
     try {
-        const respond = await this.adminsSercice.createAdmin({
-            username, password, fullname, phone_number, address,
-          });
+        const respond = await this.adminsSercice.store(data);
           return respond;
     } catch (error: any) {
         throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -25,7 +18,7 @@ export class AdminController {
   
     @Get()
     getAdmins() {
-      return this.adminsSercice.getAdmins();
+      return this.adminsSercice.get({});
     }
 }
 

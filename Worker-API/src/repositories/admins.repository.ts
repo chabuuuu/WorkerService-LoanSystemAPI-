@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Admin, Prisma } from '@prisma/client';
+import { IBaseRepository } from 'src/domain/interface/base.repository.interface';
 import { PrismaService } from 'src/services/prisma.service';
 
 @Injectable()
-export class AdminRepository {
+export class AdminRepository implements IBaseRepository<Admin> {
     constructor(private prisma: PrismaService) {}
-    async createAdmin(params: { data: Prisma.AdminCreateInput }): Promise<Admin> {
+    async store(params: { data: Prisma.AdminCreateInput }): Promise<Admin> {
         const { data } = params;
         return this.prisma.admin.create({ data });
       }
@@ -21,7 +22,7 @@ export class AdminRepository {
         return this.prisma.admin.findMany({ skip, take, cursor, where, orderBy });
       }
     
-      async updateAdmin(params: {
+      async update(params: {
         where: Prisma.AdminWhereUniqueInput;
         data: Prisma.AdminUpdateInput;
       }): Promise<Admin> {
@@ -29,7 +30,7 @@ export class AdminRepository {
         return this.prisma.admin.update({ where, data });
       }
     
-      async deleteAdmin(params: {
+      async delete(params: {
         where: Prisma.AdminWhereUniqueInput;
       }): Promise<Admin> {
         const { where } = params;
