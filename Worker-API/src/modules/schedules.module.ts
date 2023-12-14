@@ -6,9 +6,9 @@ import { UtilsModule } from 'src/modules/utils.module';
 import { ScheduleController } from 'src/controllers/schedule.controller';
 
 @Module({
-    providers: [SchedulesRepository, SchedulesService],
-    imports: [PrismaModule, UtilsModule],
-    exports: [SchedulesService],
-    controllers: [ScheduleController],
+  providers: [SchedulesRepository, SchedulesService],
+  imports: [PrismaModule, UtilsModule],
+  exports: [SchedulesService],
+  controllers: [ScheduleController],
 })
 export class SchedulesModule {}

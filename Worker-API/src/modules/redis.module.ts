@@ -6,10 +6,10 @@ import { PrismaModule } from './prisma.module';
 import { AdminsModule } from './admins.module';
 
 @Module({
-    imports: [PrismaModule],
-    controllers: [],
-    providers: [redisClientFactory, RedisRepository, RedisService],
+  imports: [PrismaModule],
+  controllers: [],
+  providers: [redisClientFactory, RedisRepository, RedisService],
 
-    exports: [RedisService],
+  exports: [RedisService],
 })
 export class RedisModule {}

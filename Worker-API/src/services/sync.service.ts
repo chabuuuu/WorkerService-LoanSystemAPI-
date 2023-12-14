@@ -23,7 +23,7 @@
 //               return syncLog;
 //         } catch (e) {
 //               throw e
-//         }    
+//         }
 //         // do other things in the service layer... e.g. send email
 //       }
 //     async getSyncLog() {
@@ -32,7 +32,7 @@
 //     }
 //   async syncDB(schedule_id: number){
 //    try {
-    
+
 //    } catch (error) {
 //     throw error
 //    }

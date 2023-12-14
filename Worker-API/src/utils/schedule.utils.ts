@@ -5,21 +5,28 @@ var cron = require('node-cron');
 
 @Injectable()
 export class ScheduleUtil {
-constructor(private mornitorService: MornitorService){}
-  async getJob(task :string, scheduleId :string){
-
-  }
-  async handle (time: string, task: string, scheduled, scheduleId: number): Promise<any>{
-    const jobSchedule = cron.schedule(time,()=>{
+  constructor(private mornitorService: MornitorService) {}
+  async getJob(task: string, scheduleId: string) {}
+  async handle(
+    time: string,
+    task: string,
+    scheduled,
+    scheduleId: number,
+  ): Promise<any> {
+    const jobSchedule = cron.schedule(
+      time,
+      () => {
         switch (task) {
-            case 'mornitor':
-                this.mornitorService.mornitor(scheduleId)
-                break;
-        
-            default:
-                break;
+          case 'mornitor':
+            this.mornitorService.mornitor(scheduleId);
+            break;
+
+          default:
+            break;
         }
-    }, {scheduled:scheduled})
+      },
+      { scheduled: scheduled },
+    );
     return jobSchedule;
   }
 }

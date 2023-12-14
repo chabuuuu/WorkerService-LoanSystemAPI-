@@ -6,30 +6,27 @@ import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
-    AdminsModule, 
+    AdminsModule,
     RouterModule.register([
-        {
-            path: 'api/v1/admin',
-            module: AdminsModule,
-        },
-    ]
-    ),
-    SchedulesModule, 
+      {
+        path: 'api/v1/admin',
+        module: AdminsModule,
+      },
+    ]),
+    SchedulesModule,
     RouterModule.register([
-        {
-            path: 'api/v1/schedule',
-            module: SchedulesModule,
-        },
-    ]
-    ),
-    MornitorModule, 
+      {
+        path: 'api/v1/schedule',
+        module: SchedulesModule,
+      },
+    ]),
+    MornitorModule,
     RouterModule.register([
-        {
-            path: 'api/v1/mornitor',
-            module: MornitorModule,
-        },
-    ]
-    ),
-],
+      {
+        path: 'api/v1/mornitor',
+        module: MornitorModule,
+      },
+    ]),
+  ],
 })
 export class AppModule {}

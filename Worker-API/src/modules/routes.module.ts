@@ -7,7 +7,7 @@ import { MornitorModule } from 'src/modules/mornitor.module';
 import { MornitorController } from '../controllers/mornitor.controller';
 
 @Module({
-    imports: [SchedulesModule, AdminsModule, MornitorModule],
-    //controllers: [ScheduleController, AdminController, MornitorController],
+  imports: [SchedulesModule, AdminsModule, MornitorModule],
+  //controllers: [ScheduleController, AdminController, MornitorController],
 })
 export class RoutesModule {}
