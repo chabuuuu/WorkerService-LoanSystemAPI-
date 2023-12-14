@@ -17,6 +17,7 @@ export class RedisService {
   ) {}
 
   async saveAdmin(adminId: string, adminData: AdminInterface | Object): Promise<void> {
+    if (adminId.length > 0){
     // Expiry is set to 1 day
     await this.redisRepository.setWithExpiry(
       RedisPrefixEnum.ADMIN,
@@ -24,6 +25,7 @@ export class RedisService {
       JSON.stringify(adminData),
       oneDayInSeconds,
     );
+    }
   }
 
   async getAdmin(adminId: string): Promise<Object | Array<Object> | null> {
@@ -32,6 +34,12 @@ export class RedisService {
       adminId,
     );
     return admin;
+  }
+  async deleteAdmin(adminId: string): Promise<void>{
+    const count = await this.redisRepository.delete(
+      RedisPrefixEnum.ADMIN,
+      adminId,
+    )
   }
 
   async saveSchedule(schedule_id: string, token: string): Promise<void> {

@@ -1,51 +1,57 @@
-// import { Inject, Injectable } from '@nestjs/common';
-// import {  SyncLog } from '@prisma/client';
-// import { SyncRepository } from 'src/repositories/sync.repository';
-// import { RedisService } from './redis.service';
-// import { AdminRepository } from 'src/repositories/admins.repository';
-// import { SchedulesRepository } from 'src/repositories/schedules.repository';
-// import { MornitorRepository } from 'src/repositories/mornitor.repository';
+import { Inject, Injectable } from '@nestjs/common';
+import {  Admin, SyncLog } from '@prisma/client';
+import { SyncRepository } from 'src/repositories/sync.repository';
+import { RedisService } from './redis.service';
+import { AdminRepository } from 'src/repositories/admins.repository';
+import { SchedulesRepository } from 'src/repositories/schedules.repository';
+import { MornitorRepository } from 'src/repositories/mornitor.repository';
+import { BaseService } from './base.service';
+import { AdminsService } from './admin.service';
+import { PrismaService } from './prisma.service';
 
-// @Injectable()
-// export class SyncService {
-//     constructor(
-//         @Inject(RedisService) private readonly redisService: RedisService) {
-//     }
-//     async createSyncLog(params: {schedule_id: SyncLog['schedule_id'],
-//     status: SyncLog['status'], type: SyncLog['type'], count: SyncLog['count'], }) {
-//         const { schedule_id, status, type, count } = params;
-//         // call repository layer
-//         try {
-//             const test = this.repository as MornitorRepository
-//             const syncLog = await this.repository.create({data:{
-//                 schedule_id,status, type, count
-//             }});
-//               return syncLog;
-//         } catch (e) {
-//               throw e
-//         }
-//         // do other things in the service layer... e.g. send email
-//       }
-//     async getSyncLog() {
-//         const log = await this.repository.get({});
-//         return log;
-//     }
-//   async syncDB(schedule_id: number){
-//    try {
-
-//    } catch (error) {
-//     throw error
-//    }
-//     }
-//     async deleteMornitorLog(id: number) {
-//         try {
-//             const logDeletedCount = await this.repository.delete({
-//                 where: {id: id}
-//             });
-//             return {status: "deleted", count: logDeletedCount}
-//         } catch (error) {
-//             throw error
-//         }
-
-//     }
-// }
+@Injectable()
+export class SyncService {
+    constructor(
+        @Inject(RedisService) private readonly redisService: RedisService,
+        @Inject(AdminsService) private readonly adminService: AdminsService,
+        private prisma: PrismaService,
+        private repository: SyncRepository
+        ) 
+        {
+    }
+    async createSyncLog(params: {schedule_id: SyncLog['schedule_id'],
+    status: SyncLog['status'], type: SyncLog['type'], count: SyncLog['count'], }) {
+        const { schedule_id, status, type, count } = params;
+        // call repository layer
+        try {
+            const syncLog = await this.repository.create({data:{
+                schedule_id,status, type, count
+            }});
+            return syncLog;
+        } catch (e) {
+              throw e
+        }
+        // do other things in the service layer... e.g. send email
+      }
+    async getSyncLog() {
+        const log = await this.repository.get({});
+        return log;
+    }
+  async syncDB(schedule_id: number){
+   try {
+    const adminRepo = new AdminRepository(this.prisma);
+    const adminData : any = await adminRepo.get({});
+    console.log(adminData);
+    const deleteCount = await this.redisService.deleteAdmin("");
+    console.log("deleteCount:::" + deleteCount);
+    var count = 0;
+    for (var value of adminData){
+        await this.redisService.saveAdmin(value.id.toString(),value);
+        count ++;
+    }
+    this.createSyncLog({schedule_id: schedule_id, status: true, type: 'redis/admin', count: count });
+   } catch (error) {
+    throw error
+   }
+    }
+}

@@ -3,6 +3,7 @@ import { SchedulesModule } from '../modules/schedules.module';
 import { AdminsModule } from '../modules/admins.module';
 import { MornitorModule } from '../modules/mornitor.module';
 import { RouterModule } from '@nestjs/core';
+import { SyncModule } from 'src/modules/sync.module';
 
 @Module({
   imports: [
@@ -25,6 +26,13 @@ import { RouterModule } from '@nestjs/core';
       {
         path: 'api/v1/mornitor',
         module: MornitorModule,
+      },
+    ]),
+    SyncModule,
+    RouterModule.register([
+      {
+        path: 'api/v1/sync',
+        module: SyncModule,
       },
     ]),
   ],

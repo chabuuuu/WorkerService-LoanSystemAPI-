@@ -24,7 +24,6 @@ export class RedisRepository
 
     const keys = await this.redisClient.keys('*');
     console.log(keys);
-
     var resArr: Array<Object> = new Array<Object>();
     for (var key of keys) {
       {
@@ -43,7 +42,24 @@ export class RedisRepository
   }
 
   async delete(prefix: string, key: string): Promise<void> {
-    await this.redisClient.del(`${prefix}:${key}`);
+    if (key.length != 0) {
+      const respond : any = await this.redisClient.del(`${prefix}:${key}`);
+      return respond;
+    }
+
+    const keys = await this.redisClient.keys(`${prefix}:*`);
+    console.log(keys);
+    var resArr: Array<Object> = new Array<Object>();
+    let count : any = 0;
+    for (var deleteKey of keys) {
+      {
+        await this.redisClient.del(deleteKey);
+        count++;
+      }
+    }
+    console.log(resArr);
+    return count;
+
   }
 
   async setWithExpiry(
