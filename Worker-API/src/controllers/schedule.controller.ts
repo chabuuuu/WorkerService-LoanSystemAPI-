@@ -13,7 +13,7 @@ import { SchedulesService } from 'src/services/schedules.service';
 
 @Controller()
 export class ScheduleController {
-  constructor(private readonly schedulesSercice: SchedulesService) {}
+  constructor(private readonly schedulesService: SchedulesService) {}
   //POST api/v1/schedule
   @Post()
   async createSchedule(
@@ -28,7 +28,7 @@ export class ScheduleController {
   ) {
     const { job, time, content, scheduled, adminId } = data;
     try {
-      const respond = await this.schedulesSercice.createSchedule({
+      const respond = await this.schedulesService.store({
         job,
         time,
         content,
@@ -43,11 +43,11 @@ export class ScheduleController {
   //GET api/v1/schedule
   @Get()
   getSchedules() {
-    return this.schedulesSercice.getSchedules();
+    return this.schedulesService.get();
   }
   //Delete api/v1/schedule
   @Delete(':id')
   async deleteSchedule(@Param('id') id: string) {
-    return await this.schedulesSercice.deleteSchedule(id);
+    return await this.schedulesService.delete(id);
   }
 }

@@ -3,18 +3,20 @@ import { SchedulesRepository } from '../repositories/schedules.repository';
 import { Admin, JobSchedule, Prisma } from '@prisma/client';
 import { scheduled } from 'rxjs';
 import { ScheduleUtil } from 'src/utils/schedule.utils';
+import { BaseService } from './base.service';
 
 @Injectable()
-export class SchedulesService implements OnModuleInit{
+export class SchedulesService extends BaseService<JobSchedule, SchedulesRepository> implements OnModuleInit{
   constructor(
-    private repository: SchedulesRepository,
+    repository: SchedulesRepository,
     private scheduleUtil: ScheduleUtil,
   ) {
+    super(repository)
   }
   async onModuleInit() {
       await this.loadSchedules();
   }
-  async createSchedule(params: {
+  async store(params: {
     job: JobSchedule['job'];
     time: JobSchedule['time'];
     content: JobSchedule[`content`];
@@ -25,7 +27,7 @@ export class SchedulesService implements OnModuleInit{
 
     // call repository layer
     try {
-      const schedule = await this.repository.createSchedule({
+      const schedule = await this.repository.store({
         data: {
           job,
           time,
@@ -46,16 +48,16 @@ export class SchedulesService implements OnModuleInit{
     // do other things in the service layer... e.g. send email
   }
 
-  async getSchedules() { 
+  async get() { 
     const schedules = await this.repository.get({});
     return schedules;
   }
-  async deleteSchedule(id: string) {
-    await this.repository.deleteSchedule({
+  async delete(id: string) {
+    const deletedData = await this.repository.delete({
       where: { id: Number(id) },
     });
     await this.stopSchedule(Number(id));
-    return { message: 'Done delete' };
+    return deletedData;
   }
   async loadSchedules() {
     try {
@@ -83,6 +85,5 @@ export class SchedulesService implements OnModuleInit{
     } catch (error) {
       throw error
     }
-
   }
 }

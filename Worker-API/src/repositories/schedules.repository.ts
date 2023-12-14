@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JobSchedule, Prisma } from '@prisma/client';
+import { IBaseRepository } from 'src/domain/interface/base.repository.interface';
 import { PrismaService } from 'src/services/prisma.service';
 
 @Injectable()
-export class SchedulesRepository {
+export class SchedulesRepository implements IBaseRepository<JobSchedule>{
   constructor(private prisma: PrismaService) {}
-  async createSchedule(params: {
+  async store(params: {
     data: Prisma.JobScheduleCreateInput;
   }): Promise<JobSchedule> {
     const { data } = params;
@@ -29,7 +30,7 @@ export class SchedulesRepository {
     });
   }
 
-  async updateSchedule(params: {
+  async update(params: {
     where: Prisma.JobScheduleWhereUniqueInput;
     data: Prisma.JobScheduleUpdateInput;
   }): Promise<JobSchedule> {
@@ -37,7 +38,7 @@ export class SchedulesRepository {
     return this.prisma.jobSchedule.update({ where, data });
   }
 
-  async deleteSchedule(params: {
+  async delete(params: {
     where: Prisma.JobScheduleWhereUniqueInput;
   }): Promise<JobSchedule> {
     const { where } = params;
