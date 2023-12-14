@@ -1,19 +1,18 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { SchedulesRepository } from '../repositories/schedules.repository';
 import { Admin, JobSchedule, Prisma } from '@prisma/client';
 import { scheduled } from 'rxjs';
 import { ScheduleUtil } from 'src/utils/schedule.utils';
-import cron from 'node-cron';
 
 @Injectable()
-export class SchedulesService {
-  static jobMap: Map<string, cron.ScheduledTask>;
+export class SchedulesService implements OnModuleInit{
   constructor(
     private repository: SchedulesRepository,
     private scheduleUtil: ScheduleUtil,
   ) {
-    SchedulesService.jobMap = new Map();
-    this.loadSchedules();
+  }
+  async onModuleInit() {
+      await this.loadSchedules();
   }
   async createSchedule(params: {
     job: JobSchedule['job'];
@@ -39,7 +38,7 @@ export class SchedulesService {
           },
         },
       });
-      this.loadSchedules();
+      await this.loadSchedules();
       return schedule;
     } catch (e) {
       throw e;
@@ -47,7 +46,7 @@ export class SchedulesService {
     // do other things in the service layer... e.g. send email
   }
 
-  async getSchedules() {
+  async getSchedules() { 
     const schedules = await this.repository.get({});
     return schedules;
   }
@@ -55,8 +54,7 @@ export class SchedulesService {
     await this.repository.deleteSchedule({
       where: { id: Number(id) },
     });
-    this.stopSchedule(Number(id));
-    this.loadSchedules();
+    await this.stopSchedule(Number(id));
     return { message: 'Done delete' };
   }
   async loadSchedules() {
@@ -71,9 +69,7 @@ export class SchedulesService {
             schedule.id,
           );
           console.log('Load job:::', schedule.job);
-          SchedulesService.jobMap.set(schedule.id.toString(), job);
-          console.log(SchedulesService.jobMap);
-          job.start();
+          await ScheduleUtil.manager.start(schedule.id.toString());
         }
       }
     } catch (error) {
@@ -82,10 +78,11 @@ export class SchedulesService {
     return;
   }
   async stopSchedule(jobId: number) {
-    const job: cron.ScheduledTask = SchedulesService.jobMap.get(
-      jobId.toString(),
-    );
-    job.stop();
-    SchedulesService.jobMap.delete(jobId.toString());
+    try {
+    await ScheduleUtil.manager.stop(jobId.toString());
+    } catch (error) {
+      throw error
+    }
+
   }
 }

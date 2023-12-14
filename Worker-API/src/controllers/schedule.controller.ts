@@ -47,7 +47,7 @@ export class ScheduleController {
   }
   //Delete api/v1/schedule
   @Delete(':id')
-  deleteSchedule(@Param('id') id: string) {
-    return this.schedulesSercice.deleteSchedule(id);
+  async deleteSchedule(@Param('id') id: string) {
+    return await this.schedulesSercice.deleteSchedule(id);
   }
 }

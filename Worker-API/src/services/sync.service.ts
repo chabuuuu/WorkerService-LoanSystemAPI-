@@ -3,9 +3,6 @@ import {  Admin, SyncLog } from '@prisma/client';
 import { SyncRepository } from 'src/repositories/sync.repository';
 import { RedisService } from './redis.service';
 import { AdminRepository } from 'src/repositories/admins.repository';
-import { SchedulesRepository } from 'src/repositories/schedules.repository';
-import { MornitorRepository } from 'src/repositories/mornitor.repository';
-import { BaseService } from './base.service';
 import { AdminsService } from './admin.service';
 import { PrismaService } from './prisma.service';
 

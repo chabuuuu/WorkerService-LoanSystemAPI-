@@ -12,7 +12,7 @@ import { SyncController } from 'src/controllers/sync.controller';
 
 @Module({
     providers: [SyncRepository, SyncService],
-    imports: [PrismaModule, RedisModule, AdminsModule, MornitorModule, SchedulesModule],
+    imports: [PrismaModule, RedisModule, AdminsModule, MornitorModule],
     exports: [SyncService],
     controllers: [SyncController],
 })

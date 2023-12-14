@@ -21,7 +21,7 @@ import { SyncService } from 'src/services/sync.service';
     }
     @Get('start')
     startSync() {
-      return this.syncService.syncDB(null);
+      return this.syncService.syncDB(20);
     }
   }
   

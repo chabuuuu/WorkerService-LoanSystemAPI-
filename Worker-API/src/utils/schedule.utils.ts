@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { MornitorService } from 'src/services/mornitor.service';
-// import cron from 'node-cron'
-var cron = require('node-cron');
+import { SyncService } from 'src/services/sync.service';
+var CronJobManager = require('cron-job-manager')
 
 @Injectable()
 export class ScheduleUtil {
-  constructor(private mornitorService: MornitorService) {}
+  public static manager = new CronJobManager();
+
+  constructor(private mornitorService: MornitorService, 
+    private syncService: SyncService) {}
   async getJob(task: string, scheduleId: string) {}
   async handle(
     time: string,
@@ -13,20 +16,22 @@ export class ScheduleUtil {
     scheduled,
     scheduleId: number,
   ): Promise<any> {
-    const jobSchedule = cron.schedule(
+    const jobSchedule = ScheduleUtil.manager.add(
+      scheduleId.toString(),
       time,
       () => {
         switch (task) {
           case 'mornitor':
             this.mornitorService.mornitor(scheduleId);
             break;
-
+          case 'sync':
+            this.syncService.syncDB(scheduleId);
           default:
             break;
         }
       },
       { scheduled: scheduled },
     );
-    return jobSchedule;
+    return;
   }
 }
