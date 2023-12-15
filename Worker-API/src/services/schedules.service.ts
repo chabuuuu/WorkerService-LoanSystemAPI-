@@ -6,15 +6,18 @@ import { ScheduleUtil } from 'src/utils/schedule.utils';
 import { BaseService } from './base.service';
 
 @Injectable()
-export class SchedulesService extends BaseService<JobSchedule, SchedulesRepository> implements OnModuleInit{
+export class SchedulesService
+  extends BaseService<JobSchedule, SchedulesRepository>
+  implements OnModuleInit
+{
   constructor(
     repository: SchedulesRepository,
     private scheduleUtil: ScheduleUtil,
   ) {
-    super(repository)
+    super(repository);
   }
   async onModuleInit() {
-      await this.loadSchedules();
+    await this.loadSchedules();
   }
   async store(params: {
     job: JobSchedule['job'];
@@ -48,7 +51,7 @@ export class SchedulesService extends BaseService<JobSchedule, SchedulesReposito
     // do other things in the service layer... e.g. send email
   }
 
-  async get() { 
+  async get() {
     const schedules = await this.repository.get({});
     return schedules;
   }
@@ -69,6 +72,7 @@ export class SchedulesService extends BaseService<JobSchedule, SchedulesReposito
             schedule.job,
             schedule.scheduled,
             schedule.id,
+            schedule.content
           );
           console.log('Load job:::', schedule.job);
           await ScheduleUtil.manager.start(schedule.id.toString());
@@ -81,9 +85,9 @@ export class SchedulesService extends BaseService<JobSchedule, SchedulesReposito
   }
   async stopSchedule(jobId: number) {
     try {
-    await ScheduleUtil.manager.stop(jobId.toString());
+      await ScheduleUtil.manager.stop(jobId.toString());
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 }

@@ -41,7 +41,7 @@ export class AdminsService extends BaseService<Admin, AdminRepository> {
       //console.log(params);
       const id = params.where.id.toString();
       const adminData = await this.redisService.getAdmin(id);
-      replaceProperties(adminData, params.data)
+      replaceProperties(adminData, params.data);
       console.log(adminData);
       await this.redisService.saveAdmin(id, adminData);
       const updatedData = await this.repository.update(params);

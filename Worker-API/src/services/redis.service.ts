@@ -16,15 +16,18 @@ export class RedisService {
     //private repository: AdminRepository | SchedulesRepository | MornitorRepository
   ) {}
 
-  async saveAdmin(adminId: string, adminData: AdminInterface | Object): Promise<void> {
-    if (adminId.length > 0){
-    // Expiry is set to 1 day
-    await this.redisRepository.setWithExpiry(
-      RedisPrefixEnum.ADMIN,
-      adminId,
-      JSON.stringify(adminData),
-      oneDayInSeconds,
-    );
+  async saveAdmin(
+    adminId: string,
+    adminData: AdminInterface | Object,
+  ): Promise<void> {
+    if (adminId.length > 0) {
+      // Expiry is set to 1 day
+      await this.redisRepository.setWithExpiry(
+        RedisPrefixEnum.ADMIN,
+        adminId,
+        JSON.stringify(adminData),
+        oneDayInSeconds,
+      );
     }
   }
 
@@ -35,11 +38,11 @@ export class RedisService {
     );
     return admin;
   }
-  async deleteAdmin(adminId: string): Promise<void>{
+  async deleteAdmin(adminId: string): Promise<void> {
     const count = await this.redisRepository.delete(
       RedisPrefixEnum.ADMIN,
       adminId,
-    )
+    );
   }
 
   async saveSchedule(schedule_id: string, token: string): Promise<void> {

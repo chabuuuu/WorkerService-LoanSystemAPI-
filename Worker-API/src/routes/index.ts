@@ -4,6 +4,7 @@ import { AdminsModule } from '../modules/admins.module';
 import { MornitorModule } from '../modules/mornitor.module';
 import { RouterModule } from '@nestjs/core';
 import { SyncModule } from 'src/modules/sync.module';
+import { MessageModule } from 'src/modules/message.module';
 
 @Module({
   imports: [
@@ -33,6 +34,13 @@ import { SyncModule } from 'src/modules/sync.module';
       {
         path: 'api/v1/sync',
         module: SyncModule,
+      },
+    ]),
+    MessageModule,
+    RouterModule.register([
+      {
+        path: 'api/v1/message',
+        module: MessageModule,
       },
     ]),
   ],

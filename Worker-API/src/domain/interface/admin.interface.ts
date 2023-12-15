@@ -1,6 +1,6 @@
 import { Admin } from '@prisma/client';
 
-export interface AdminInterface  {
+export interface AdminInterface {
   //id: Admin['id'];
   username: Admin['username'] | null;
   password: Admin['password'] | null;

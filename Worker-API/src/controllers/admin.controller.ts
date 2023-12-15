@@ -16,18 +16,17 @@ import { validatorFactory } from 'src/utils/validator';
 
 @Controller()
 export class AdminController {
-  constructor(private readonly adminsSercice: AdminsService) {
-  }
+  constructor(private readonly adminsSercice: AdminsService) {}
 
   @Post()
   async createAdmin(@Body() data: AdminInterface) {
     try {
       const newAdminSchema = adminSchema;
-      newAdminSchema.required = ["username", "password", "fullname"]
+      newAdminSchema.required = ['username', 'password', 'fullname'];
       const validateAdmin = validatorFactory(newAdminSchema);
-      const validatedData : AdminInterface = validateAdmin.verify(data)
+      const validatedData: AdminInterface = validateAdmin.verify(data);
       console.log(validatedData);
-      
+
       const respond = await this.adminsSercice.store(validatedData);
       return respond;
     } catch (error: any) {
@@ -44,8 +43,11 @@ export class AdminController {
     try {
       const putAdminSchema = adminSchema;
       const validateAdmin = validatorFactory(putAdminSchema);
-      const validatedData : AdminInterface = validateAdmin.verify(data)
-      const respond = this.adminsSercice.update({ where: {id: Number(id)}, data: data });
+      const validatedData: AdminInterface = validateAdmin.verify(data);
+      const respond = this.adminsSercice.update({
+        where: { id: Number(id) },
+        data: data,
+      });
       return respond;
     } catch (error) {
       throw error;

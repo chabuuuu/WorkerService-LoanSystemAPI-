@@ -4,7 +4,7 @@ import { IBaseRepository } from 'src/domain/interface/base.repository.interface'
 import { PrismaService } from 'src/services/prisma.service';
 
 @Injectable()
-export class SchedulesRepository implements IBaseRepository<JobSchedule>{
+export class SchedulesRepository implements IBaseRepository<JobSchedule> {
   constructor(private prisma: PrismaService) {}
   async store(params: {
     data: Prisma.JobScheduleCreateInput;

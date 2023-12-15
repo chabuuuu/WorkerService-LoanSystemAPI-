@@ -29,7 +29,7 @@ export class AdminRepository implements IBaseRepository<Admin> {
     const { where, data } = params;
     try {
       console.log(data);
-      
+
       const respond = this.prisma.admin.update({ where, data });
       return respond;
     } catch (error) {
