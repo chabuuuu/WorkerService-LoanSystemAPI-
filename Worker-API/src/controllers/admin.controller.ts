@@ -34,7 +34,7 @@ export class AdminController {
     }
   }
 
-  @Get()
+  @Get('')
   getAdmins() {
     return this.adminsSercice.get({});
   }
@@ -48,6 +48,15 @@ export class AdminController {
         where: { id: Number(id) },
         data: data,
       });
+      return respond;
+    } catch (error) {
+      throw error;
+    }
+  }
+  @Post('login')
+  loginAdmin(@Body() data: AdminInterface) {
+    try {
+      const respond = this.adminsSercice.login({data: data});
       return respond;
     } catch (error) {
       throw error;

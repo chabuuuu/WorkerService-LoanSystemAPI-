@@ -13,8 +13,6 @@ export class MessageService extends BaseService<MessageLog, MessageRepository> {
   }
   async postMsg(body: any): Promise<any> {
     const msg = body.message;
-    console.log(msg);
-    
     const schedule_id = body.schedule_id;
     try {
       //1. create connect

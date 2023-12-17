@@ -21,8 +21,6 @@ export class ScheduleUtil {
     scheduleId: number,
     content: string
   ): Promise<any> {
-    console.log(content);
-    
     const jobSchedule = ScheduleUtil.manager.add(
       scheduleId.toString(),
       time,
@@ -34,10 +32,7 @@ export class ScheduleUtil {
           case 'sync':
             this.syncService.syncDB(scheduleId);
           case 'backup':
-            this.messageService.postMsg({
-              message: content,
-              schedule_id: scheduleId
-            });
+            this.messageService.postMsg({body: content});
           default:
             break;
         }

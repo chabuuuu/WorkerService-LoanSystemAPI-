@@ -1,10 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Admin, Prisma } from '@prisma/client';
 import { AdminRepository } from '../repositories/admins.repository';
 import { RedisService } from './redis.service';
 import { BaseService } from './base.service';
 import { AdminInterface } from 'src/domain/interface/admin.interface';
 import { replaceProperties } from 'src/utils/replace-properties';
+const jwt = require('jsonwebtoken');
 
 @Injectable()
 export class AdminsService extends BaseService<Admin, AdminRepository> {
@@ -17,6 +18,15 @@ export class AdminsService extends BaseService<Admin, AdminRepository> {
 
   async store(params: AdminInterface): Promise<Admin> {
     try {
+      const duplicateAdmins = await this.repository.get({
+        where: 
+        {
+          username: params.username
+        }
+      })
+      if (duplicateAdmins.length > 0){
+        throw new HttpException ("Duplicate username", HttpStatus.BAD_REQUEST)
+      }
       const admin = await this.repository.store({
         data: params,
       });
@@ -49,5 +59,31 @@ export class AdminsService extends BaseService<Admin, AdminRepository> {
     } catch (error) {
       throw error;
     }
+  }
+  async login(params: any): Promise<void> {
+    try {
+      const result = await this.repository.get({
+          where: {
+              username: params.data.username,
+          },
+      });
+      if (result.length < 1){
+        throw new HttpException("Login failed. Invalid username", HttpStatus.BAD_REQUEST);
+      }
+      if (result[0].password === params.data.password) {
+          const token = jwt.sign(
+              { username: params.data.username, password: params.data.password },
+              process.env.JWT_SECRET,
+              { expiresIn: process.env.JWT_EXPIRES_IN },
+          );
+          console.log(token);
+          return {status: "suscess", username: params.data.username, token: token} as any;
+      } else {
+          throw new HttpException("Login failed. Invalid password", HttpStatus.BAD_REQUEST);
+      }
+  } catch (error: any) {
+      throw error
+  }
+    return;
   }
 }
