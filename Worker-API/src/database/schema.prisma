@@ -17,6 +17,7 @@ model Admin {
   fullname      String
   phone_number  String
   address       String
+  teleId String?
   job_schedules JobSchedule[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt

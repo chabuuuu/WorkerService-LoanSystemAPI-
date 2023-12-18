@@ -3,6 +3,7 @@ import { Redis } from 'ioredis';
 
 export const redisClientFactory: FactoryProvider<Redis> = {
   provide: 'RedisClient',
+  
   useFactory: () => {
     const redisInstance = new Redis({
       host: process.env.REDIS_HOST,

@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MornitorRepository } from '../repositories/mornitor.repository';
 import { MornitorLog, Prisma } from '@prisma/client';
 import { log } from 'console';
+import { TeleBot } from 'src/utils/teleBot';
 const si = require('systeminformation');
 @Injectable()
 export class MornitorService {
@@ -34,6 +35,8 @@ export class MornitorService {
     si.cpuCurrentSpeed().then(async (data) => {
       console.log('status:::', data);
       status = JSON.stringify(data);
+      const message = '```\nstatus:::' + status + '\n```';
+      TeleBot.bot.sendMessage(process.env.TELE_CHAT_ID, message)
       try {
         await this.createMornitorLog({ schedule_id, status });
       } catch (error) {

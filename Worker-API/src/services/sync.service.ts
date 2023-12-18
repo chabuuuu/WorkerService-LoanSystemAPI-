@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { Admin, SyncLog } from '@prisma/client';
 import { SyncRepository } from 'src/repositories/sync.repository';
 import { RedisService } from './redis.service';
@@ -7,7 +7,10 @@ import { AdminsService } from './admin.service';
 import { PrismaService } from './prisma.service';
 
 @Injectable()
-export class SyncService {
+export class SyncService implements OnModuleInit {
+  async onModuleInit() {
+      this.syncDB(-1);
+  }
   constructor(
     @Inject(RedisService) private readonly redisService: RedisService,
     @Inject(AdminsService) private readonly adminService: AdminsService,
@@ -53,12 +56,14 @@ export class SyncService {
         await this.redisService.saveAdmin(value.id.toString(), value);
         count++;
       }
-      this.createSyncLog({
-        schedule_id: schedule_id,
-        status: true,
-        type: 'redis/admin',
-        count: count,
-      });
+      if (schedule_id > 0){
+        this.createSyncLog({
+          schedule_id: schedule_id,
+          status: true,
+          type: 'redis/admin',
+          count: count,
+        });
+      }
     } catch (error) {
       throw error;
     }

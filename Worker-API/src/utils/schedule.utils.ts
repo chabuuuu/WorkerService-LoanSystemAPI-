@@ -32,7 +32,7 @@ export class ScheduleUtil {
           case 'sync':
             this.syncService.syncDB(scheduleId);
           case 'backup':
-            this.messageService.postMsg({body: content});
+            this.messageService.postMsg({message: content, schedule_id: scheduleId});
           default:
             break;
         }

@@ -5,9 +5,12 @@ import { MornitorModule } from '../modules/mornitor.module';
 import { RouterModule } from '@nestjs/core';
 import { SyncModule } from 'src/modules/sync.module';
 import { MessageModule } from 'src/modules/message.module';
-
+import { ConfigModule } from '@nestjs/config';
+import { TeleBot } from 'src/utils/teleBot';
+const teleBot = new TeleBot();
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     AdminsModule,
     RouterModule.register([
       {
