@@ -33,9 +33,14 @@ export class MornitorService {
   async mornitor(schedule_id: number) {
     var status = '';
     si.cpuCurrentSpeed().then(async (data) => {
-      console.log('status:::', data);
+      console.log(data);
       status = JSON.stringify(data);
-      const message = '```\nstatus:::' + status + '\n```';
+      const message = `
+      status:\n 
+      min: ${data.min}\n
+      max: ${data.max}\n
+      avg: ${data.avg}\n
+      cores: ${data.cores.toString()}`;
       TeleBot.bot.sendMessage(process.env.TELE_CHAT_ID, message)
       try {
         await this.createMornitorLog({ schedule_id, status });
