@@ -6,7 +6,7 @@ import { AdminController } from 'src/controllers/admin.controller';
 import { RedisModule } from './redis.module';
 import { NextFunction } from 'express';
 import { authenticateJWT } from 'src/utils/jwtAuthenticate';
-const compression = require('compression');
+import { CompressJson } from 'src/utils/compressjson.util';
 
 @Module({
   providers: [AdminRepository, AdminsService],
@@ -16,7 +16,7 @@ const compression = require('compression');
 })
 export class AdminsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-      consumer.apply(authenticateJWT).exclude(
+      consumer.apply(authenticateJWT, CompressJson).exclude(
         {path: 'api/v1/admin', method: RequestMethod.POST},
         {path: 'api/v1/admin/login', method: RequestMethod.POST},
       ).forRoutes(AdminController)

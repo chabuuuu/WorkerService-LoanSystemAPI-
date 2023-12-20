@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { SchedulesModule } from '../modules/schedules.module';
 import { AdminsModule } from '../modules/admins.module';
 import { MornitorModule } from '../modules/mornitor.module';

@@ -43,7 +43,7 @@ export class AdminController {
     // console.log("decompress:::" + JSON.stringify(decom));
     console.log("respond::" + respond);
     let compressed = JSON.stringify(compress(respond))
-    return compressed
+    return respond
   }
   @Put(':id')
   updateAdmins(@Param('id') id: string, @Body() data: AdminInterface) {

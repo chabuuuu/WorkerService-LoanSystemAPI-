@@ -7,7 +7,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(morgan('dev'));
   //console.log(process.env);
-  
   //app.use(compression());
   await app.listen(3000);
 }

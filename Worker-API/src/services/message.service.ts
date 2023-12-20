@@ -15,6 +15,8 @@ export class MessageService extends BaseService<MessageLog, MessageRepository> {
     super(repository);
   }
   async postMsg(body: any): Promise<any> {
+    console.log("connect string:::" + this.connectionString);
+    
     const msg = body.message;
     console.log(msg);
     
