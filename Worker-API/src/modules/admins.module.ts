@@ -6,6 +6,7 @@ import { AdminController } from 'src/controllers/admin.controller';
 import { RedisModule } from './redis.module';
 import { NextFunction } from 'express';
 import { authenticateJWT } from 'src/utils/jwtAuthenticate';
+const compression = require('compression');
 
 @Module({
   providers: [AdminRepository, AdminsService],

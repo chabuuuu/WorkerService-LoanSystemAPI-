@@ -13,6 +13,7 @@ import { AdminInterface } from 'src/domain/interface/admin.interface';
 import { AdminsService } from 'src/services/admin.service';
 import { adminSchema } from 'src/schema/admin.schema';
 import { validatorFactory } from 'src/utils/validator';
+import { compress, decompress } from 'compress-json'
 
 @Controller()
 export class AdminController {
@@ -35,8 +36,14 @@ export class AdminController {
   }
 
   @Get('')
-  getAdmins() {
-    return this.adminsSercice.get({});
+  async getAdmins() {
+    const respond = await this.adminsSercice.get({});
+    // let compressed = compress(respond)
+    // const decom = decompress(compressed)
+    // console.log("decompress:::" + JSON.stringify(decom));
+    console.log("respond::" + respond);
+    let compressed = JSON.stringify(compress(respond))
+    return compressed
   }
   @Put(':id')
   updateAdmins(@Param('id') id: string, @Body() data: AdminInterface) {
