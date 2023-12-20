@@ -4,10 +4,13 @@ import { MessageLog } from '@prisma/client';
 import { MessageRepository } from 'src/repositories/message.repository';
 import { scheduled } from 'rxjs';
 const amqplib = require('amqplib');
+import { rabbitmq_config } from 'src/configs/config.rabbitmq';
+
 @Injectable()
 export class MessageService extends BaseService<MessageLog, MessageRepository> {
   amqp_url_cloud = process.env.RABBITMQ_CLOUD;
   amqp_url_docker = process.env.RABBITMQ_DOCKER;
+  connectionString = rabbitmq_config.connectionString
   constructor(repository: MessageRepository){
     super(repository);
   }
@@ -18,7 +21,7 @@ export class MessageService extends BaseService<MessageLog, MessageRepository> {
     const schedule_id = body.schedule_id;
     try {
       //1. create connect
-      const conn = await amqplib.connect(this.amqp_url_docker);
+      const conn = await amqplib.connect(this.connectionString);
       //2. create chanel
       const chanel = await conn.createChannel();
       //3. create exchange
