@@ -4,7 +4,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const token = process.env.TELE_BOT_TOKEN
 const chatid = process.env.TELE_CHAT_ID
 export class TeleBot{
-    public static bot = new TelegramBot(token, {polling: false});
+    public static bot = new TelegramBot(token, {polling: true});
     getBot () {
         return TeleBot.bot;
     }

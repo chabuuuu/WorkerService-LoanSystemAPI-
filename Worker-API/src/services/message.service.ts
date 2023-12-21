@@ -34,7 +34,8 @@ export class MessageService extends BaseService<MessageLog, MessageRepository> {
       //4. publish video
       await chanel.publish(nameExchange, '', Buffer.from(msg));
       console.log('Send OK');
-
+      
+    
       // 1. gui faild => tu dong gui.
       // 2 co nhieu consumer 
       // 3 gui object, arrray, file.

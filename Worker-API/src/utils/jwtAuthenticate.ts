@@ -16,9 +16,9 @@ export function authenticateJWT(req: any, res: any, next: any) {
 
         jwt.verify(token, process.env.JWT_SECRET, (err: any, user: any) => {
             if (err) {
-                console.log(err);
+                console.log("token error: ", err);
 
-                throw err
+                throw new HttpException(err, HttpStatus.BAD_REQUEST);
                 // return res.status(403).json({ message: 'JWT không hợp lệ' });
             }
             req.user = user;

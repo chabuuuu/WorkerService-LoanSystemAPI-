@@ -7,6 +7,7 @@ import { RedisModule } from './redis.module';
 import { NextFunction } from 'express';
 import { authenticateJWT } from 'src/utils/jwtAuthenticate';
 import { CompressJson } from 'src/utils/compressjson.util';
+var bodyParser = require('body-parser')
 
 @Module({
   providers: [AdminRepository, AdminsService],
