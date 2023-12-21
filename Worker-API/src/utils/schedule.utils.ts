@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MessageService } from 'src/services/message.service';
+import { MessageService } from 'src/services/pubsub/post.service';
 import { MornitorService } from 'src/services/mornitor.service';
 import { SyncService } from 'src/services/sync.service';
 var CronJobManager = require('cron-job-manager');

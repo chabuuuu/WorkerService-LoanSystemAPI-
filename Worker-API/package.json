@@ -41,6 +41,7 @@
     "morgan": "^1.10.0",
     "node-cron": "^3.0.3",
     "node-telegram-bot-api": "^0.64.0",
+    "path": "^0.12.7",
     "redis-om": "^0.4.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",

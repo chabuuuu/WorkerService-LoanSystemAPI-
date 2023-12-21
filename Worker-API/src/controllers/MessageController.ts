@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { MessageService } from '../services/message.service';
+import { MessageService } from '../services/pubsub/post.service';
 
 @Controller()
 export class MessageController {
