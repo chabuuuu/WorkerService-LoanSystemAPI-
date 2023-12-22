@@ -1,9 +1,10 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { SchedulesRepository } from '../repositories/schedules.repository';
 import { Admin, JobSchedule, Prisma } from '@prisma/client';
 import { scheduled } from 'rxjs';
 import { ScheduleUtil } from 'src/utils/schedule.utils';
 import { BaseService } from './base.service';
+import { MessageService } from './pubsub/post.service';
 
 @Injectable()
 export class SchedulesService
@@ -11,14 +12,15 @@ export class SchedulesService
   implements OnModuleInit
 {
   constructor(
+    @Inject(MessageService) private readonly messageService: MessageService,
     repository: SchedulesRepository,
     private scheduleUtil: ScheduleUtil,
   ) {
     super(repository);
   }
   async onModuleInit() {
-    await this.loadSchedules();
-  }
+    const schedules = await this.loadSchedules();
+}
   async store(params: {
     job: JobSchedule['job'];
     time: JobSchedule['time'];
@@ -62,7 +64,7 @@ export class SchedulesService
     await this.stopSchedule(Number(id));
     return deletedData;
   }
-  async loadSchedules() {
+  async loadSchedules() : Promise<JobSchedule[]> {
     try {
       const schedules = await this.repository.get({});
       if (schedules.length > 0) {
@@ -76,6 +78,11 @@ export class SchedulesService
           );
           console.log('Load job:::', schedule.job);
           await ScheduleUtil.manager.start(schedule.id.toString());
+          if (schedules.length > 0){
+            console.log('Sending schedules...', schedules);
+            this.messageService.postMsg({message: JSON.stringify(schedules), schedule_id: -1, nameExchange: 'schedule'}) 
+          }
+          return schedules;
         }
       }
     } catch (error) {

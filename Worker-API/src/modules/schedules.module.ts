@@ -5,10 +5,11 @@ import { SchedulesService } from '../services/schedules.service';
 import { UtilsModule } from 'src/modules/utils.module';
 import { ScheduleController } from 'src/controllers/schedule.controller';
 import { authenticateJWT } from 'src/utils/jwtAuthenticate';
+import { MessageModule } from './message.module';
 
 @Module({
   providers: [SchedulesRepository, SchedulesService],
-  imports: [PrismaModule, UtilsModule],
+  imports: [PrismaModule, UtilsModule, MessageModule],
   exports: [SchedulesService],
   controllers: [ScheduleController],
 })

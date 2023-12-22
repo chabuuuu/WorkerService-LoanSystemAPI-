@@ -30,7 +30,7 @@ export class MessageService extends BaseService<MessageLog, MessageRepository> {
         //2. create chanel
         const chanel = await conn.createChannel();
         //3. create exchange
-        const nameExchange = 'backup';
+        const nameExchange = body.nameExchange;
         await chanel.assertExchange(nameExchange, 'fanout', {
           durable: false,
         });
@@ -47,8 +47,11 @@ export class MessageService extends BaseService<MessageLog, MessageRepository> {
           conn.close();
           //process.exit(0);
         }, 2000);
-        const saveLog = await super.store({data: {schedule_id: Number(schedule_id), content: msg, name_exchange: nameExchange}})
-        return saveLog;
+        if (schedule_id != -1){
+          const saveLog = await super.store({data: {schedule_id: Number(schedule_id), content: msg, name_exchange: nameExchange}})
+          return saveLog;
+        }
+        return {"status": "Send ok"};
       } catch (error) {
         console.log(error.message);
       }
