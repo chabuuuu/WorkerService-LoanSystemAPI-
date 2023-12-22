@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { MornitorRepository } from '../repositories/mornitor.repository';
+import { MornitorRepository } from 'src/repositories/mornitor.repository';
 import { MornitorLog, Prisma } from '@prisma/client';
-import { log } from 'console';
 import { TeleBot } from 'src/utils/teleBot';
 const si = require('systeminformation');
 @Injectable()
@@ -41,7 +40,7 @@ export class MornitorService {
       max: ${data.max}\n
       avg: ${data.avg}\n
       cores: ${data.cores.toString()}`;
-      TeleBot.bot.sendMessage(process.env.TELE_CHAT_ID, message)
+      TeleBot.bot.sendMessage(process.env.TELE_CHAT_ID, message);
       try {
         await this.createMornitorLog({ schedule_id, status });
       } catch (error) {

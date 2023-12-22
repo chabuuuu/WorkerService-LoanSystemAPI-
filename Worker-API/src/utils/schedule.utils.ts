@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MessageService } from 'src/services/pubsub/post.service';
+import { PostMessageService } from 'src/services/pubsub/post.service';
 import { MornitorService } from 'src/services/mornitor.service';
 import { SyncService } from 'src/services/sync.service';
 var CronJobManager = require('cron-job-manager');
@@ -11,7 +11,7 @@ export class ScheduleUtil {
   constructor(
     private mornitorService: MornitorService,
     private syncService: SyncService,
-    private messageService: MessageService
+    private messageService: PostMessageService,
   ) {}
   async getJob(task: string, scheduleId: string) {}
   async handle(
@@ -19,7 +19,7 @@ export class ScheduleUtil {
     task: string,
     scheduled,
     scheduleId: number,
-    content: string
+    content: string,
   ): Promise<any> {
     const jobSchedule = ScheduleUtil.manager.add(
       scheduleId.toString(),
@@ -32,7 +32,11 @@ export class ScheduleUtil {
           case 'sync':
             this.syncService.syncDB(scheduleId);
           case 'backup':
-            this.messageService.postMsg({message: content, schedule_id: scheduleId, nameExchange: 'backup'});
+            this.messageService.postMsg({
+              message: content,
+              schedule_id: scheduleId,
+              nameExchange: 'backup',
+            });
           default:
             break;
         }

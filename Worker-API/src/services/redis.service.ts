@@ -3,9 +3,6 @@ import { Inject, Injectable } from '@nestjs/common';
 import { RedisPrefixEnum } from '../domain/enum/redis-prefix-enum';
 import { RedisRepository } from 'src/repositories/redis.repository';
 import { AdminInterface } from 'src/domain/interface/admin.interface';
-import { AdminRepository } from 'src/repositories/admins.repository';
-import { SchedulesRepository } from 'src/repositories/schedules.repository';
-import { MornitorRepository } from 'src/repositories/mornitor.repository';
 const oneDayInSeconds = 60 * 60 * 24;
 const tenMinutesInSeconds = 60 * 10;
 

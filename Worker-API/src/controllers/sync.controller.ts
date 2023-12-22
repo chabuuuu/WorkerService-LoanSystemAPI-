@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpException,
-  HttpStatus,
-  Param,
-  Post,
-} from '@nestjs/common';
-import { MornitorService } from 'src/services/mornitor.service';
+import { Controller, Get } from '@nestjs/common';
 import { SyncService } from 'src/services/sync.service';
 
 @Controller()

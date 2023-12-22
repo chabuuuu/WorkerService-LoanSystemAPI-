@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { MornitorRepository } from '../repositories/mornitor.repository';
-import { MornitorService } from '../services/mornitor.service';
+import { MornitorRepository } from 'src/repositories/mornitor.repository';
+import { MornitorService } from 'src/services/mornitor.service';
 import { PrismaModule } from 'src/modules/prisma.module';
 import { MornitorController } from 'src/controllers/mornitor.controller';
 

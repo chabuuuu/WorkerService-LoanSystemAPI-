@@ -8,41 +8,42 @@ import { MessageModule } from 'src/modules/message.module';
 import { ConfigModule } from '@nestjs/config';
 import { TeleBot } from 'src/utils/teleBot';
 const teleBot = new TeleBot();
+const main_route = 'api/v1';
 @Module({
   imports: [
     ConfigModule.forRoot(),
     AdminsModule,
     RouterModule.register([
       {
-        path: 'api/v1/admin',
+        path: `${main_route}/admin`,
         module: AdminsModule,
       },
     ]),
     SchedulesModule,
     RouterModule.register([
       {
-        path: 'api/v1/schedule',
+        path: `${main_route}/schedule`,
         module: SchedulesModule,
       },
     ]),
     MornitorModule,
     RouterModule.register([
       {
-        path: 'api/v1/mornitor',
+        path: `${main_route}/mornitor`,
         module: MornitorModule,
       },
     ]),
     SyncModule,
     RouterModule.register([
       {
-        path: 'api/v1/sync',
+        path: `${main_route}/sync`,
         module: SyncModule,
       },
     ]),
     MessageModule,
     RouterModule.register([
       {
-        path: 'api/v1/message',
+        path: `${main_route}/message`,
         module: MessageModule,
       },
     ]),

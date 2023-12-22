@@ -7,13 +7,12 @@ import {
   Param,
   Post,
   Put,
-  UseInterceptors,
 } from '@nestjs/common';
 import { AdminInterface } from 'src/domain/interface/admin.interface';
 import { AdminsService } from 'src/services/admin.service';
 import { adminSchema } from 'src/schema/admin.schema';
 import { validatorFactory } from 'src/utils/validator';
-import { compress, decompress } from 'compress-json'
+import { compress, decompress } from 'compress-json';
 
 @Controller()
 export class AdminController {
@@ -41,9 +40,9 @@ export class AdminController {
     // let compressed = compress(respond)
     // const decom = decompress(compressed)
     // console.log("decompress:::" + JSON.stringify(decom));
-    console.log("respond::" + respond);
-    let compressed = JSON.stringify(compress(respond))
-    return respond
+    console.log('respond::' + respond);
+    let compressed = JSON.stringify(compress(respond));
+    return respond;
   }
   @Put(':id')
   updateAdmins(@Param('id') id: string, @Body() data: AdminInterface) {
@@ -63,7 +62,7 @@ export class AdminController {
   @Post('login')
   loginAdmin(@Body() data: AdminInterface) {
     try {
-      const respond = this.adminsSercice.login({data: data});
+      const respond = this.adminsSercice.login({ data: data });
       return respond;
     } catch (error) {
       throw error;
