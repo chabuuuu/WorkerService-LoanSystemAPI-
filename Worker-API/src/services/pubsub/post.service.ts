@@ -5,7 +5,8 @@ import { MessageRepository } from 'src/repositories/message.repository';
 const amqplib = require('amqplib');
 import { rabbitmq_config } from 'src/configs/config.rabbitmq';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
-
+import { Load_Count } from 'src/utils/LoadCount';
+const loadCount = new Load_Count();
 @Injectable()
 export class PostMessageService extends BaseService<
   MessageLog,
@@ -35,13 +36,22 @@ export class PostMessageService extends BaseService<
           durable: false,
         });
         //4. publish video
-        await chanel.publish(nameExchange, '', Buffer.from(msg));
+        if (schedule_id == 0){
+          loadCount.increase();
+          const consumer = loadCount.getCosumers();
+          await chanel.publish(nameExchange, consumer, Buffer.from(msg));
+          console.log(`Loan balancer count::: ${Load_Count.count}`); 
+          console.log(`Consumer:: ${consumer}`);
+          
+        }else{
+          await chanel.publish(nameExchange, '', Buffer.from(msg));
+        }
         console.log(`Send ${nameExchange} OK`);
         setTimeout(() => {
           conn.close();
           //process.exit(0);
         }, 2000);
-        if (schedule_id != -1) {
+        if (schedule_id > 0) {
           const saveLog = await super.store({
             data: {
               schedule_id: Number(schedule_id),
