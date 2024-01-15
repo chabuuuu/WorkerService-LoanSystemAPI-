@@ -20,7 +20,7 @@ export class PostMessageService extends BaseService<
     console.log('connect string:::' + this.connectionString);
 
     let msg = body.message;
-    console.log(msg);
+    //console.log(msg);
 
     const schedule_id = body.schedule_id;
     const send_count = body.send_count == null ? 1 : body.send_count;
@@ -40,6 +40,7 @@ export class PostMessageService extends BaseService<
         //4. publish video
         for (let i = 0; i < send_count; i++) {
           msg = body.message + "-count:::" + i;
+          
           if (schedule_id == 0 && sendType == 'direct') {
             loadCount.increase();
             const consumer = loadCount.getCosumers();
@@ -49,9 +50,15 @@ export class PostMessageService extends BaseService<
             
           }else{
             await chanel.publish(nameExchange, '', Buffer.from(msg));
+            console.log(nameExchange);
+            
+            console.log(msg);
+            
           }     
         }
         console.log(`Send ${nameExchange} OK`);
+        console.log("test");
+
         setTimeout(() => {
           conn.close();
           //process.exit(0);

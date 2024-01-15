@@ -27,7 +27,7 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: requestLimit, extended: true }));
   const receiveMessage = new ReceiveMessageService();
   receiveMessage.receiveNoti();
-  receiveMessage.broadcastConsumer('A', 'fanout-exchange')
+  //receiveMessage.broadcastConsumer('A', 'fanout-exchange')
   await app.listen(3000);
 }
 bootstrap();
