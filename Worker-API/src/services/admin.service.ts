@@ -36,7 +36,11 @@ export class AdminsService extends BaseService<Admin, AdminRepository> {
     }
     // do other things in the service layer... e.g. send email
   }
-
+  async delete(params: any): Promise<any> {
+    const admin = super.delete(params);
+    this.redisService.deleteAdmin(params.where.id);
+    return admin
+  }
   async get(params: any): Promise<Object> {
     //const admins = await this.repository.get({});
 

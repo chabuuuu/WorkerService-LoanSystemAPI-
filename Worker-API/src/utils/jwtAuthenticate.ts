@@ -5,7 +5,10 @@ const jwt = require('jsonwebtoken');
 
 // Middleware kiểm tra JWT
 export function authenticateJWT(req: any, res: any, next: any) {
-  const token = req.header('Authorization');
+  var token :string  = req.header('Authorization');
+  if (token != null){
+    token = token.split('Bearer ')[1];
+  }
   console.log(token);
   try {
     if (!token) {
