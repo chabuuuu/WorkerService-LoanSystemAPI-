@@ -1,11 +1,12 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { compress } from 'compress-json';
-import { jsonCompress_config } from 'src/configs/config.jsoncompress';
+const config = require('config');
+const jsonCompress = config.get('json-compress.enable');
 // Middleware kiểm tra JWT
 export function CompressJson(req: any, res: any, next: any) {
-  console.log('Compress?: ' + jsonCompress_config.enable);
+  console.log('Compress?: ' + jsonCompress);
 
-  if (jsonCompress_config.enable == true) {
+  if (jsonCompress == true) {
     var send = res.send;
     res.send = function (body) {
       try {

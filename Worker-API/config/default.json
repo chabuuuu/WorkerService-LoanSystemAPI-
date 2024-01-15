@@ -1,0 +1,11 @@
+{
+    "RabbitMQ": {
+      "connectionString": "amqp://localhost:5672"
+    },
+    "request-limit": {
+        "limit": "100kb"
+    },
+    "json-compress": {
+        "enable": false
+    }
+}

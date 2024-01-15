@@ -3,26 +3,28 @@ import { BaseService } from 'src/services/base.service';
 import { MessageLog } from '@prisma/client';
 import { MessageRepository } from 'src/repositories/message.repository';
 const amqplib = require('amqplib');
-import { rabbitmq_config } from 'src/configs/config.rabbitmq';
 import { HttpErrorByCode } from '@nestjs/common/utils/http-error-by-code.util';
 import { Load_Count } from 'src/utils/LoadCount';
+const config = require('config');
 const loadCount = new Load_Count();
 @Injectable()
 export class PostMessageService extends BaseService<
   MessageLog,
   MessageRepository
 > {
-  connectionString = rabbitmq_config.connectionString;
+  connectionString = config.get('RabbitMQ.connectionString');
   constructor(repository: MessageRepository) {
     super(repository);
   }
   async postMsg(body: any): Promise<any> {
     console.log('connect string:::' + this.connectionString);
 
-    const msg = body.message;
+    let msg = body.message;
     console.log(msg);
 
     const schedule_id = body.schedule_id;
+    const send_count = body.send_count == null ? 1 : body.send_count;
+    const sendType = body.send_type == null ? 'fanout' : body.send_type;
     let tryCouner = 0;
     while (tryCouner < 10) {
       try {
@@ -32,19 +34,22 @@ export class PostMessageService extends BaseService<
         const chanel = await conn.createChannel();
         //3. create exchange
         const nameExchange = body.nameExchange;
-        await chanel.assertExchange(nameExchange, 'fanout', {
+        await chanel.assertExchange(nameExchange, sendType, {
           durable: false,
         });
         //4. publish video
-        if (schedule_id == 0){
-          loadCount.increase();
-          const consumer = loadCount.getCosumers();
-          await chanel.publish(nameExchange, consumer, Buffer.from(msg));
-          console.log(`Loan balancer count::: ${Load_Count.count}`); 
-          console.log(`Consumer:: ${consumer}`);
-          
-        }else{
-          await chanel.publish(nameExchange, '', Buffer.from(msg));
+        for (let i = 0; i < send_count; i++) {
+          msg = body.message + "-count:::" + i;
+          if (schedule_id == 0 && sendType == 'direct') {
+            loadCount.increase();
+            const consumer = loadCount.getCosumers();
+            await chanel.publish(nameExchange, consumer, Buffer.from(msg));
+            console.log(`Loan balancer count::: ${Load_Count.count}`); 
+            console.log(`Consumer:: ${consumer}`);
+            
+          }else{
+            await chanel.publish(nameExchange, '', Buffer.from(msg));
+          }     
         }
         console.log(`Send ${nameExchange} OK`);
         setTimeout(() => {

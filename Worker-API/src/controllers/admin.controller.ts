@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -53,6 +54,17 @@ export class AdminController {
       const respond = this.adminsSercice.update({
         where: { id: Number(id) },
         data: data,
+      });
+      return respond;
+    } catch (error) {
+      throw error;
+    }
+  }
+  @Delete(':id')
+  deleteAdmins(@Param('id') id: string) {
+    try {
+      const respond = this.adminsSercice.delete({
+        where: { id: Number(id) },
       });
       return respond;
     } catch (error) {

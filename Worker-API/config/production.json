@@ -1,0 +1,11 @@
+{
+    "RabbitMQ": {
+      "connectionString": "amqps://oxrmbads:huO93XWEqbo-NdbugJUqtt3T_f_RahYs@octopus.rmq3.cloudamqp.com/oxrmbads"
+    },
+    "request-limit": {
+        "limit": "1kb"
+    },
+    "json-compress": {
+        "enable": true
+    }
+}
