@@ -13,19 +13,12 @@ const config = require('config');
 //const requestLimit = jsonRequestLimitconfig.limit;
 const requestLimit = config.get('request-limit.limit');
 
-var corsOptions = {
-  origin: config.get('cors.origin'),
-  methods: config.get('cors.methods'),
-}
-
-console.log(corsOptions);
-
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.use(morgan('dev'));
   //app.use(helmet());
   //app.use(cors(corsOptions));
-  app.enableCors(corsOptions);
+  //app.enableCors(corsOptions);
   app.use(bodyParser.urlencoded({ limit: requestLimit, extended: true }));
   const config = new DocumentBuilder()
   .addBearerAuth(

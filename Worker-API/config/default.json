@@ -9,7 +9,8 @@
         "enable": false
     },
     "cors": {
-        "origin":["localhost"],
-        "methods": ["GET", "POST", "PUT", "DELETE"]
+        "origin":["localhost", "http://127.0.0.1:5500"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "UPDATE"],
+        "allowedHeaders": ["X-Requested-With", "X-HTTP-Method-Override", "Content-Type", "Accept", "Observe"]
     }
 }
