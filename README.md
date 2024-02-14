@@ -24,6 +24,9 @@ Worker Service là một service thuộc hệ thống Loan Microservice System, 
 - [Redis] - for caching
 - [Prisma] - ORM
 
+## Architecture
+[!nothing](https://raw.githubusercontent.com/chabuuuu/WorkerService-LoanSystemAPI-/main/Architecture-Diagram/overview.jpg)
+
 ## Enviroment variables
 Xem file .env.example
 ```env
